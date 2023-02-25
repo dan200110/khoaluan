@@ -8,7 +8,7 @@ const supplierRoutes = require('./routes/supplier');
 const inventoryRoutes = require('./routes/inventory');
 const userRoutes = require('./routes/user');
 const salesRoutes = require('./routes/sales');
-const doctorUserRoutes = require('./routes/doctorUser');
+const employeeRoutes = require('./routes/employee');
 const doctorOderRoutes = require('./routes/doctorOders');
 const verifiedDoctorOderRoutes = require('./routes/verifiedDoctorOder');
 const pickedUpOdersRoutes = require('./routes/pickedUpOders');
@@ -20,7 +20,7 @@ mongoose.connect('mongodb+srv://nguyentiendan:dan200110@cluster0.zk6stlq.mongodb
     console.log('connected to database!');
   })
   .catch(()=>{
-    console.log('dsasas! ');
+    console.log('connect fail! ');
   });
   mongoose.set('useCreateIndex', true);
 
@@ -112,7 +112,7 @@ app.use("/api/supplier",supplierRoutes);
 app.use("/api/inventory",inventoryRoutes);
 app.use("/api/user",userRoutes);
 app.use("/api/sales",salesRoutes);
-app.use("/api/doctorUser",doctorUserRoutes);
+app.use("/api/employee",employeeRoutes);
 app.use("/api/doctorOder",doctorOderRoutes);
 app.use("/api/verifiedDoctorOder",verifiedDoctorOderRoutes);
 app.use("/api/pickedUpOders",pickedUpOdersRoutes);

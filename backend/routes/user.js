@@ -10,7 +10,6 @@ router.post("/signup", (req,res,next)=>{
       const user = new User({
         name : req.body.name,
         contact : req.body.contact,
-        nic : req.body.nic,
         email : req.body.email,
         password : hash,
         role: req.body.role
