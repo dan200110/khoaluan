@@ -5,24 +5,23 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const checkDocAuth = require("../middleware/check-docAuth");
 
-const DoctorUser = require('../models/doctorUser');
+const Employee = require('../models/employee');
 
-router.post("/doctorSignup",(req,res,next)=>{
-
+router.post("/signup",(req,res,next)=>{
   bcrypt.hash(req.body.password, 10)
     .then(hash => {
-      const doctorUser = new DoctorUser({
+      const employee = new Employee({
         name : req.body.name,
         contact : req.body.contact,
-        docId : req.body.docId,
         email : req.body.email,
-        password : hash
+        password : hash,
+        role: req.body.role
       });
 
-      doctorUser.save()
+      employee.save()
         .then(result =>{
           res.status(201).json({
-            message : 'Doctor Account created!',
+            message : 'Employee Account created!',
             result: result
           });
         })
@@ -36,10 +35,9 @@ router.post("/doctorSignup",(req,res,next)=>{
 
 });
 
-
-router.post("/doctorLogin" , (req, res ,  next)=>{
+router.post("/login" , (req, res ,  next)=>{
   let fetchedUser;
-  DoctorUser.findOne({email: req.body.email}).then(user=>{
+  Employee.findOne({email: req.body.email}).then(user=>{
     if(!user){
       return res.status(401).json({
         message: "Auth failed"
@@ -75,21 +73,21 @@ router.post("/doctorLogin" , (req, res ,  next)=>{
   });
 })
 
-router.get("/getDoctorUserData",(req,res,next)=>{
-  DoctorUser.find().then(documents=>{
+router.get("/getEmployeeData",(req,res,next)=>{
+  Employee.find().then(documents=>{
     res.status(200).json({
-      message : 'Doctor added sucessfully',
+      message : 'Get all employee sucessfully',
       doctors :documents
     });
   });
 });
 
 router.get("/:id",(req,res,next)=>{
-  DoctorUser.findById(req.params.id).then(doctor =>{
-    if(doctor){
-      res.status(200).json(doctor);
+  Employee.findById(req.params.id).then(employee =>{
+    if(employee){
+      res.status(200).json(employee);
     }else{
-      res.status(200).json({message:'doctor not found'});
+      res.status(200).json({message:'employee not found'});
     }
   });
 });
@@ -97,7 +95,7 @@ router.get("/:id",(req,res,next)=>{
 router.put("/:id",(req,res,next)=>{
   bcrypt.hash(req.body.password, 10)
   .then(hash => {
-    const doctor = new DoctorUser({
+    const employee = new Employee({
       _id: req.body.id,
       name: req.body.name,
       email: req.body.email,
@@ -105,10 +103,10 @@ router.put("/:id",(req,res,next)=>{
       password: hash
     });
 
-  DoctorUser.updateOne({_id: req.params.id}, doctor)
+    Employee.updateOne({_id: req.params.id}, employee)
   .then(result => {
     console.log(result);
-    res.status(200).json({message : "Update doctor Successful !"});
+    res.status(200).json({message : "Update employee Successful !"});
   })
   .catch(err =>{
     res.status(500).json({
@@ -120,9 +118,9 @@ router.put("/:id",(req,res,next)=>{
 });
 
 router.delete("/:id",(req, res, next) => {
-  DoctorUser.deleteOne({ _id: req.params.id }).then(result => {
+  Employee.deleteOne({ _id: req.params.id }).then(result => {
     console.log(result);
-    res.status(200).json({ message: 'doctor deleted!' });
+    res.status(200).json({ message: 'Employee deleted!' });
   });
 });
 

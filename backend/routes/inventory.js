@@ -18,7 +18,7 @@ const storage =multer.diskStorage({
     if(isValid){
       error = null;
     }
-    cb(error, "images");
+    cb(error, "backend/images");
   },
   filename :(req, file ,cb) => {
     const name = file.originalname.toLowerCase().split(' ').join('-');
@@ -31,13 +31,13 @@ const storage =multer.diskStorage({
 router.post("",multer({storage: storage}).single("image"),(req,res,next)=>{
   const url =req.protocol + '://' + req.get("host");
   const inventory = new Inventory({
-    email: req.body.email,
+    supplierId: req.body.supplierId,
+    supplierName: req.body.supplierName,
     name: req.body.name,
     quantity: req.body.quantity,
-    batchId: req.body.batchId,
     expireDate: req.body.expireDate,
     price: req.body.price,
-    imagePath : url + "/images/" + req.file.filename
+    imagePath : url + "/backend/images/" + req.file.filename
     });
   inventory.save().then(createdInventory=>{
   res.status(201).json({
@@ -102,7 +102,7 @@ router.get("",(req,res,next)=>{
   }
   postQuery.then(documents=>{
     res.status(200).json({
-      message : 'inventory added sucessfully',
+      message : 'get all inventory sucessfully',
       inventorys :documents
     });
   });
