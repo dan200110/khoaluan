@@ -67,7 +67,6 @@ router.post("/login", (req, res, next) => {
         email: fetchedUser.email,
         token: token,
         expiresIn: 3600,
-        role: fetchedUser.role,
         message: "Logged in Successfully"
       });
     })
@@ -108,7 +107,6 @@ router.put("/:id", (req, res, next) => {
         email: req.body.email,
         contact: req.body.contact,
         password: hash,
-        role: req.body.role
       });
 
       User.updateOne({ _id: req.params.id }, user)

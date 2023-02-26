@@ -34,7 +34,7 @@ router.post("",(req,res,next)=>{
   router.get("",(req,res,next)=>{
     DoctorOder.find().then(documents=>{
       res.status(200).json({
-        message : 'Doctor oder added sucessfully',
+        message : 'Get all Doctor oder sucessfully',
         doctorOders :documents
       });
     });
@@ -44,6 +44,43 @@ router.post("",(req,res,next)=>{
     DoctorOder.deleteOne({ _id: req.params.id }).then(result => {
       console.log(result);
       res.status(200).json({ message: 'Doctor order deleted!' });
+    });
+  });
+
+
+  router.put("/verifiedDoctorOrder/:id",(req,res,next)=>{
+    DoctorOder.updateOne({_id: req.params.id}, {
+      isVerified: true
+    }).then(result => {
+      res.status(200).json({message : "Verified Doctor Order Successful !"});
+    });
+  });
+
+
+  router.put("/pickedUpDoctorOrder/:id",(req,res,next)=>{
+    DoctorOder.updateOne({_id: req.params.id}, {
+      isPickedUp: true
+    }).then(result => {
+      res.status(200).json({message : "PickedUp Doctor Order Successful !"});
+    });
+  });
+
+  router.get("/getAllPickedUpDoctorOrder",(req,res,next)=>{
+    DoctorOder.find({isPickedUp: true}).then(documents=>{
+      res.status(200).json({
+        message : 'Get all PickedUp Doctor oder sucessfully',
+        doctorOders :documents
+      });
+    });
+  });
+
+
+  router.get("/getAllVerifiedDoctorOrder",(req,res,next)=>{
+    DoctorOder.find({isVerified: true}).then(documents=>{
+      res.status(200).json({
+        message : 'Get all Verified Doctor oder sucessfully',
+        doctorOders :documents
+      });
     });
   });
 

@@ -61,10 +61,10 @@ router.put("/:id",multer({storage: storage}).single("image"), (req,res,next)=>{
   };
   const inventory = new Inventory({
     _id: req.body.id,
-    email: req.body.email,
+    supplierId: req.body.supplierId,
+    supplierName: req.body.supplierName,
     name: req.body.name,
     quantity: req.body.quantity,
-    batchId: req.body.batchId,
     expireDate:new Date(req.body.expireDate),
     price: req.body.price,
     imagePath: imagePath
@@ -158,7 +158,7 @@ router.get("/getExpired",(req,res,next)=>{
   }
   postQuery.then(documents=>{
     res.status(200).json({
-      message : 'inventory added sucessfully',
+      message : 'get inventory expired sucessfully',
       inventorys :documents
     });
   });
@@ -179,7 +179,7 @@ router.get("/getAboutToExpire",(req,res,next)=>{
   }
   postQuery.then(documents=>{
     res.status(200).json({
-      message : 'inventory added sucessfully',
+      message : 'get inventory about to expire',
       inventorys :documents
     });
   });

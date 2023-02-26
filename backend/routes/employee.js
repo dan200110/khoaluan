@@ -63,7 +63,7 @@ router.post("/login" , (req, res ,  next)=>{
         name: fetchedUser.name,
         email: fetchedUser.email,
         contact: fetchedUser.contact,
-        docId: fetchedUser.docId,
+        role: fetchedUser.role,
       });
   })
   .catch(err =>{
@@ -100,7 +100,8 @@ router.put("/:id",(req,res,next)=>{
       name: req.body.name,
       email: req.body.email,
       contact: req.body.contact,
-      password: hash
+      password: hash,
+      role: req.body.role
     });
 
     Employee.updateOne({_id: req.params.id}, employee)
