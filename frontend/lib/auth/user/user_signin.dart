@@ -91,7 +91,10 @@ class _UserSignInState extends State<UserSignIn> {
                               // Update values
                               _formKey.currentState!.save();
                               // Hit Api
-                              auth.user_login(userCredential);
+                              auth.user_login(userCredential).then((value) {
+                                Navigator.pop(context);
+                                Navigator.pushNamed(context, '/');
+                              });
                             }
                           },
                         );

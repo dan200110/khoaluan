@@ -4,28 +4,28 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
-router.post("/signup", (req,res,next)=>{
+router.post("/signup", (req, res, next) => {
   bcrypt.hash(req.body.password, 10)
     .then(hash => {
       const user = new User({
-        name : req.body.name,
-        contact : req.body.contact,
-        email : req.body.email,
-        password : hash,
+        name: req.body.name,
+        contact: req.body.contact,
+        email: req.body.email,
+        password: hash,
         role: req.body.role
       });
 
       user.save()
-        .then(result =>{
+        .then(result => {
           res.status(201).json({
-            message : 'User created!',
+            message: 'User created!',
             result: result
           });
         })
 
-        .catch(err =>{
+        .catch(err => {
           res.status(500).json({
-            error :err
+            error: err
           });
         });
     })
@@ -34,10 +34,10 @@ router.post("/signup", (req,res,next)=>{
 
 
 
-router.post("/login" , (req, res ,  next)=>{
+router.post("/login", (req, res, next) => {
   let fetchedUser;
-  User.findOne({email: req.body.email}).then(user=>{
-    if(!user){
+  User.findOne({ email: req.body.email }).then(user => {
+    if (!user) {
       return res.status(401).json({
         token: "error",
         expiresIn: "error",
@@ -45,84 +45,87 @@ router.post("/login" , (req, res ,  next)=>{
         message: "Invalid Email (user email not registered)"
       });
     }
-    fetchedUser=user;
+    fetchedUser = user;
     return bcrypt.compare(req.body.password, user.password);
   })
-  .then(result =>{
-    if(!result){
-      return res.status(401).json({
-        token: "error",
-        expiresIn: "error",
-        role: "error",
-        message: "Invalid password please try again"
-      });
-    }
-    const token = jwt.sign(
-      {email: fetchedUser.email , userId : fetchedUser ._id } ,
-      'this_is_the_webToken_secret_key' ,
-      { expiresIn : "1h"}
+    .then(result => {
+      if (!result) {
+        return res.status(401).json({
+          token: "error",
+          expiresIn: "error",
+          role: "error",
+          message: "Invalid password please try again"
+        });
+      }
+      const token = jwt.sign(
+        { email: fetchedUser.email, userId: fetchedUser._id },
+        'this_is_the_webToken_secret_key',
+        { expiresIn: "1h" }
       );
       res.status(200).json({
+        name: fetchedUser.name,
+        email: fetchedUser.email,
         token: token,
         expiresIn: 3600,
         role: fetchedUser.role,
         message: "Logged in Successfully"
       });
-  })
-  .catch(err =>{
-    return res.status(401).json({
-      message: "Auth failed"
+    })
+    .catch(err => {
+      // return res.status(401).json({
+      //   message: "Auth failed"
+      // });
+      console.log("auth failed");
     });
-  });
 })
 
-router.get("/getUserData",(req,res,next)=>{
-  User.find().then(documents=>{
+router.get("/getUserData", (req, res, next) => {
+  User.find().then(documents => {
     res.status(200).json({
-      message : 'supplier added sucessfully',
-      users :documents
+      message: 'supplier added sucessfully',
+      users: documents
     });
   });
 });
 
 
-router.get("/:id",(req,res,next)=>{
-  User.findById(req.params.id).then(user =>{
-    if(user){
+router.get("/:id", (req, res, next) => {
+  User.findById(req.params.id).then(user => {
+    if (user) {
       res.status(200).json(user);
-    }else{
-      res.status(200).json({message:'user not found'});
+    } else {
+      res.status(200).json({ message: 'user not found' });
     }
   });
 });
 
-router.put("/:id",(req,res,next)=>{
+router.put("/:id", (req, res, next) => {
   bcrypt.hash(req.body.password, 10)
-  .then(hash => {
-    const user = new User({
-      _id: req.body.id,
-      name: req.body.name,
-      email: req.body.email,
-      contact: req.body.contact,
-      password: hash,
-      role: req.body.role
-    });
+    .then(hash => {
+      const user = new User({
+        _id: req.body.id,
+        name: req.body.name,
+        email: req.body.email,
+        contact: req.body.contact,
+        password: hash,
+        role: req.body.role
+      });
 
-    User.updateOne({_id: req.params.id}, user)
-  .then(result => {
-    console.log(result);
-    res.status(200).json({message : "Update user Successful !"});
-  })
-  .catch(err =>{
-    res.status(500).json({
-    error :err
-   });
+      User.updateOne({ _id: req.params.id }, user)
+        .then(result => {
+          console.log(result);
+          res.status(200).json({ message: "Update user Successful !" });
+        })
+        .catch(err => {
+          res.status(500).json({
+            error: err
+          });
+        });
+
+    })
 });
 
-})
-});
-
-router.delete("/:id",(req, res, next) => {
+router.delete("/:id", (req, res, next) => {
   User.deleteOne({ _id: req.params.id }).then(result => {
     console.log(result);
     res.status(200).json({ message: 'user deleted!' });

@@ -55,9 +55,11 @@ class AuthBlock extends ChangeNotifier {
   user_login(UserCredential userCredential) async {
     loading = true;
     loadingType = 'login';
-    await _authService.user_login(userCredential);
+    Map<dynamic, dynamic> result =
+        await _authService.user_login(userCredential);
+    print(result);
+    // if (result['token'] == "error")
     setUser();
-    print(_user['email']);
     loading = false;
   }
 
@@ -66,7 +68,6 @@ class AuthBlock extends ChangeNotifier {
     loadingType = 'login';
     await _authService.employee_login(userCredential);
     setUser();
-    print(_user['email']);
     loading = false;
   }
 

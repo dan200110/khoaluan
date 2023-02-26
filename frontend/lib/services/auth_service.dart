@@ -31,8 +31,8 @@ class AuthService {
             fontSize: 16.0);
       }
       // If that call was not successful, throw an error.
-//      throw Exception(response.body);
-      return jsonDecode(response.body);
+      throw Exception(response.body);
+      // return jsonDecode(response.body);
     }
   }
 
