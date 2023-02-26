@@ -125,122 +125,121 @@ class _PharmacistInventory extends State<PharmacistInventory> {
       appBar: AppBar(
         title: Text("Drug inventory"),
       ),
-      body: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        verticalDirection: VerticalDirection.down,
+      body: Row(
         children: <Widget>[
-          Expanded(
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: <Widget>[
-                SingleChildScrollView(
+          SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                        minWidth: MediaQuery.of(context).size.width),
                     child: DataTable(
-                  showCheckboxColumn: true,
-                  horizontalMargin: 8.0,
-                  columnSpacing: 10.0,
-                  columns: [
-                    DataColumn(
-                      label: Text("ID"),
-                      numeric: false,
-                    ),
-                    DataColumn(
-                      label: Text("Supplier name"),
-                      numeric: false,
-                    ),
-                    DataColumn(
-                      label: Text("Drug name"),
-                      numeric: false,
-                    ),
-                    DataColumn(
-                      label: Text("Quantity"),
-                      numeric: false,
-                    ),
-                    DataColumn(
-                      label: Text("Price"),
-                      numeric: false,
-                    ),
-                    DataColumn(
-                      label: Text("Expire date"),
-                      numeric: false,
-                    ),
-                    DataColumn(
-                      label: Text("Required permission"),
-                      numeric: false,
-                    ),
-                    // DataColumn(
-                    //   label: Text("Selling Price"),
-                    //   numeric: true,
-                    //   tooltip: "This is the product's Selling Price",
-                    // ),
-                    // DataColumn(
-                    //     label: Text("Profit"),
-                    //     numeric: true,
-                    //     tooltip: "This is the Profit margin"),
-                  ],
-                  rows: products
-                      .map(
-                        (product) => DataRow(
-                          cells: [
-                            DataCell(
-                              Text(
-                                product["rating"].toString(),
-                              ),
-                            ),
-                            DataCell(
-                              Text(
-                                product["rating"].toString(),
-                              ),
-                            ),
-                            DataCell(
-                              Text(
-                                product["name"],
-                              ),
-                            ),
-                            DataCell(
-                              Text(
-                                product["rating"].toString(),
-                              ),
-                            ),
-                            DataCell(
-                              Text(
-                                product["rating"].toString(),
-                              ),
-                            ),
-                            DataCell(
-                              Text(
-                                product["name"],
-                              ),
-                            ),
-                            DataCell(
-                              Text(
-                                product["name"],
-                              ),
-                            ),
-                            // DataCell(
-                            //   Text(
-                            //     product.sellingPrice.toString(),
-                            //   ),
-                            // ),
-                            // DataCell(
-                            //   Text(
-                            //     (product.sellingPrice -
-                            //             product.buyingPrice)
-                            //         .toString(),
-                            //   ),
-                            // ),
-                          ],
+                      showCheckboxColumn: true,
+                      columns: [
+                        DataColumn(
+                          label: Text("ID"),
+                          numeric: false,
                         ),
-                      )
-                      .toList(),
-                )
-                    //           }
-                    //         }
-                    //       }),
+                        DataColumn(
+                          label: Text("Supplier name"),
+                          numeric: false,
+                        ),
+                        DataColumn(
+                          label: Text("Drug name"),
+                          numeric: false,
+                        ),
+                        DataColumn(
+                          label: Text("Quantity"),
+                          numeric: false,
+                        ),
+                        DataColumn(
+                          label: Text("Price"),
+                          numeric: false,
+                        ),
+                        DataColumn(
+                          label: Text("Expire date"),
+                          numeric: false,
+                        ),
+                        DataColumn(
+                          label: Text("Required permission"),
+                          numeric: false,
+                        ),
+                        // DataColumn(
+                        //   label: Text("Selling Price"),
+                        //   numeric: true,
+                        //   tooltip: "This is the product's Selling Price",
+                        // ),
+                        // DataColumn(
+                        //     label: Text("Profit"),
+                        //     numeric: true,
+                        //     tooltip: "This is the Profit margin"),
+                      ],
+                      rows: products
+                          .map(
+                            (product) => DataRow(
+                              cells: [
+                                DataCell(
+                                  Text(
+                                    product["rating"].toString(),
+                                  ),
+                                ),
+                                DataCell(
+                                  Text(
+                                    product["rating"].toString(),
+                                  ),
+                                ),
+                                DataCell(
+                                  Text(
+                                    product["name"],
+                                  ),
+                                ),
+                                DataCell(
+                                  Text(
+                                    product["rating"].toString(),
+                                  ),
+                                ),
+                                DataCell(
+                                  Text(
+                                    product["rating"].toString(),
+                                  ),
+                                ),
+                                DataCell(
+                                  Text(
+                                    product["name"],
+                                  ),
+                                ),
+                                DataCell(
+                                  Text(
+                                    product["name"],
+                                  ),
+                                ),
+                                // DataCell(
+                                //   Text(
+                                //     product.sellingPrice.toString(),
+                                //   ),
+                                // ),
+                                // DataCell(
+                                //   Text(
+                                //     (product.sellingPrice -
+                                //             product.buyingPrice)
+                                //         .toString(),
+                                //   ),
+                                // ),
+                              ],
+                            ),
+                          )
+                          .toList(),
                     ),
-              ],
-            ),
-          ),
+                  ),
+                ),
+              )
+              //           }
+              //         }
+              //       }),
+              ),
         ],
       ),
     );

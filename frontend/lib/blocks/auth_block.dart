@@ -45,24 +45,42 @@ class AuthBlock extends ChangeNotifier {
   // };
   Map _user = {};
   Map get user => _user;
+
   setUser() async {
     _user = await _authService.getUser();
     isLoggedIn = _user.isNotEmpty;
     notifyListeners();
   }
 
-  login(UserCredential userCredential) async {
+  user_login(UserCredential userCredential) async {
     loading = true;
     loadingType = 'login';
-    await _authService.login(userCredential);
+    await _authService.user_login(userCredential);
     setUser();
+    print(_user['email']);
     loading = false;
   }
 
-  register(User user) async {
+  employee_login(UserCredential userCredential) async {
+    loading = true;
+    loadingType = 'login';
+    await _authService.employee_login(userCredential);
+    setUser();
+    print(_user['email']);
+    loading = false;
+  }
+
+  user_register(User user) async {
     loading = true;
     loadingType = 'register';
-    await _authService.register(user);
+    await _authService.user_register(user);
+    loading = false;
+  }
+
+  employee_register(User user) async {
+    loading = true;
+    loadingType = 'register';
+    await _authService.employee_register(user);
     loading = false;
   }
 

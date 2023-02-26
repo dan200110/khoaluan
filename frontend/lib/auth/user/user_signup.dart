@@ -3,14 +3,14 @@ import 'package:flutter_medical_management_project/blocks/auth_block.dart';
 import 'package:flutter_medical_management_project/models/user.dart';
 import 'package:provider/provider.dart';
 
-class SignUp extends StatefulWidget {
+class UserSignUp extends StatefulWidget {
   @override
-  _SignUpState createState() => _SignUpState();
+  _UserSignUpState createState() => _UserSignUpState();
 }
 
-class _SignUpState extends State<SignUp> {
+class _UserSignUpState extends State<UserSignUp> {
   final _formKey = GlobalKey<FormState>();
-  final User user = User(password: '', username: '', email: '');
+  final User user = User(password: '', contact: '', name: '', email: '');
   late String confirmPassword;
 
   @override
@@ -35,7 +35,7 @@ class _SignUpState extends State<SignUp> {
                     },
                     onSaved: (value) {
                       setState(() {
-                        user.username = value!;
+                        user.name = value!;
                       });
                     },
                     decoration: InputDecoration(
@@ -61,6 +61,26 @@ class _SignUpState extends State<SignUp> {
                     decoration: InputDecoration(
                       hintText: 'Enter Email',
                       labelText: 'Email',
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 12.0),
+                  child: TextFormField(
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please Enter Contact';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      setState(() {
+                        user.contact = value!;
+                      });
+                    },
+                    decoration: InputDecoration(
+                      hintText: 'Enter Contact',
+                      labelText: 'Contact',
                     ),
                   ),
                 ),
@@ -131,7 +151,7 @@ class _SignUpState extends State<SignUp> {
                             _formKey.currentState!.save();
                             // If the form is valid, display a snackbar. In the real world,
                             // you'd often call a server or save the information in a database.
-                            auth.register(user);
+                            auth.user_register(user);
                           }
                         },
                       );

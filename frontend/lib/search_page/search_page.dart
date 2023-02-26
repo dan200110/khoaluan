@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -76,29 +73,35 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: PreferredSize(
-            child: AppBar(
-              actions: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 45),
-                    child: Hero(
-                      tag: "search",
-                      child: Material(
-                        type: MaterialType.transparency,
-                        child: TextField(
-                          style: TextStyle(color: Colors.white),
-                          decoration: const InputDecoration(
-                            hintText: "Search products",
-                            hintStyle: TextStyle(color: Colors.white),
-                          ),
+          preferredSize: const Size.fromHeight(50),
+          child: AppBar(
+            actions: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 45),
+                  child: Hero(
+                    tag: "search",
+                    child: Material(
+                      type: MaterialType.transparency,
+                      child: TextField(
+                        style: TextStyle(color: Colors.white),
+                        autofocus: true,
+                        cursorColor: Colors.white,
+                        decoration: const InputDecoration(
+                          hintText: "Search products",
+                          hintStyle: TextStyle(color: Colors.white),
                         ),
+                        onChanged: (value) {
+                          print("input");
+                        },
                       ),
                     ),
                   ),
                 ),
-              ],
-            ),
-            preferredSize: const Size.fromHeight(50)),
+              ),
+            ],
+          ),
+        ),
         body: buildSearchResult(products));
   }
 }

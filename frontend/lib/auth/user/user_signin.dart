@@ -3,12 +3,12 @@ import 'package:flutter_medical_management_project/blocks/auth_block.dart';
 import 'package:flutter_medical_management_project/models/user.dart';
 import 'package:provider/provider.dart';
 
-class SignIn extends StatefulWidget {
+class UserSignIn extends StatefulWidget {
   @override
-  _SignInState createState() => _SignInState();
+  _UserSignInState createState() => _UserSignInState();
 }
 
-class _SignInState extends State<SignIn> {
+class _UserSignInState extends State<UserSignIn> {
   final _formKey = GlobalKey<FormState>();
   final UserCredential userCredential =
       UserCredential(usernameOrEmail: '', password: '');
@@ -91,7 +91,7 @@ class _SignInState extends State<SignIn> {
                               // Update values
                               _formKey.currentState!.save();
                               // Hit Api
-                              auth.login(userCredential);
+                              auth.user_login(userCredential);
                             }
                           },
                         );

@@ -24,8 +24,8 @@ class _AppDrawerState extends State<AppDrawer> {
               backgroundImage: NetworkImage(
                   'https://avatars2.githubusercontent.com/u/2400215?s=120&v=4'),
             ),
-            accountEmail: Text(auth.user['user_email']),
-            accountName: Text(auth.user['user_display_name']),
+            accountEmail: Text(auth.user['email']),
+            accountName: Text(auth.user['name']),
           ),
         Expanded(
           child: ListView(
@@ -113,16 +113,34 @@ class _AppDrawerState extends State<AppDrawer> {
                   Navigator.pushNamed(context, '/pharmacist_home');
                 },
               ),
+              ListTile(
+                leading: Icon(Icons.accessibility_new_outlined,
+                    color: Theme.of(context).colorScheme.secondary),
+                title: Text('supplier home temporary'),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.pushNamed(context, '/supplier_home');
+                },
+              ),
               if (!auth.isLoggedIn)
                 ListTile(
                   leading: Icon(Icons.lock,
                       color: Theme.of(context).colorScheme.secondary),
-                  title: Text('Login'),
+                  title: Text('User Login'),
                   onTap: () {
                     Navigator.pop(context);
-                    Navigator.pushNamed(context, '/auth');
+                    Navigator.pushNamed(context, '/user_auth');
                   },
                 ),
+              ListTile(
+                leading: Icon(Icons.lock,
+                    color: Theme.of(context).colorScheme.secondary),
+                title: Text('Employee Login'),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.pushNamed(context, '/employee_auth');
+                },
+              ),
               Divider(),
               if (auth.isLoggedIn)
                 ListTile(

@@ -9,10 +9,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 class AuthService {
   final storage = FlutterSecureStorage();
   // Create storage
-  Future<Map> login(UserCredential userCredential) async {
-    final response = await http.post(Uri.parse('$BASE_URL/jwt-auth/v1/token'),
+
+  Future<Map> user_login(UserCredential userCredential) async {
+    final response = await http.post(Uri.parse('$BASE_URL/api/user/login'),
         body: {
-          'username': userCredential.usernameOrEmail,
+          'email': userCredential.usernameOrEmail,
           'password': userCredential.password
         });
 
@@ -35,10 +36,64 @@ class AuthService {
     }
   }
 
-  Future<Map> register(User user) async {
-    final response = await http
-        .post(Uri.parse('$BASE_URL/tradebakerz/wc/v1/register'), body: {
-      'username': user.username,
+  Future<Map> employee_login(UserCredential userCredential) async {
+    final response = await http.post(Uri.parse('$BASE_URL/api/employee/login'),
+        body: {
+          'email': userCredential.usernameOrEmail,
+          'password': userCredential.password
+        });
+
+    if (response.statusCode == 200) {
+      // If the call to the server was successful, parse the JSON.
+      // return User.fromJson(json.decode(response.body));
+      setUser(response.body);
+      return jsonDecode(response.body);
+    } else {
+      if (response.statusCode == 403) {
+        Fluttertoast.showToast(
+            msg: "Invalid Credentials",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            fontSize: 16.0);
+      }
+      // If that call was not successful, throw an error.
+//      throw Exception(response.body);
+      return jsonDecode(response.body);
+    }
+  }
+
+  Future<Map> user_register(User user) async {
+    final response =
+        await http.post(Uri.parse('$BASE_URL/api/user/signup'), body: {
+      'name': user.name,
+      'contact': user.contact,
+      'password': user.password,
+      'email': user.email
+    });
+    if (response.statusCode == 200) {
+      // If the call to the server was successful, parse the JSON.
+      // return User.fromJson(json.decode(response.body));
+      return jsonDecode(response.body);
+    } else {
+      if (response.statusCode == 400) {
+        Fluttertoast.showToast(
+            msg: 'Email already exist',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            fontSize: 16.0);
+      }
+      // If that call was not successful, throw an error.
+//      throw Exception(response.body);
+      return jsonDecode(response.body);
+    }
+  }
+
+  Future<Map> employee_register(User user) async {
+    final response =
+        await http.post(Uri.parse('$BASE_URL/api/employee/signup'), body: {
+      'name': user.name,
+      'contact': user.contact,
       'password': user.password,
       'email': user.email
     });

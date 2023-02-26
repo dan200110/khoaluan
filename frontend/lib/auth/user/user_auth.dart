@@ -1,23 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_medical_management_project/blocks/auth_block.dart';
-import 'signin.dart';
-import 'signup.dart';
+import 'user_signin.dart';
+import 'user_signup.dart';
 
-class Auth extends StatelessWidget {
-  final List<Widget> tabs = [SignIn(), SignUp()];
+class UserAuth extends StatelessWidget {
+  final List<Widget> tabs = [UserSignIn(), UserSignUp()];
   @override
   Widget build(BuildContext context) {
     final AuthBlock authBlock = Provider.of<AuthBlock>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(authBlock.currentIndex == 0 ? 'Sign In' : 'Create Account'),
+        title: Text((() {
+          if (authBlock.currentIndex == 0) {
+            return 'User sign In';
+          } else {
+            return 'User create Account';
+          }
+        }())),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.lock_open),
-            label: 'Sign In',
+            icon: Icon(Icons.lock_outline),
+            label: 'User sign In',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.people_outline),

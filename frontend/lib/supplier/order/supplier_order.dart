@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class AddingDrug extends StatefulWidget {
+class SupplierOrder extends StatefulWidget {
   @override
-  _AddingDrug createState() => _AddingDrug();
+  _SupplierOrder createState() => _SupplierOrder();
 }
 
-class _AddingDrug extends State<AddingDrug> {
+class _SupplierOrder extends State<SupplierOrder> {
   final List<Map<dynamic, dynamic>> products = [
     {
       'name': 'IPhone',
@@ -99,34 +99,14 @@ class _AddingDrug extends State<AddingDrug> {
     },
   ];
 
-  final _nameController = TextEditingController();
-  final _uom = TextEditingController();
-  final _sPrice = TextEditingController();
-  final _bPrice = TextEditingController();
-
-  @override
-  void initState() {
-    // products = [];
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _uom.dispose();
-    _sPrice.dispose();
-    _bPrice.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Nhập thêm thuốc"),
+        title: Text("All drug order"),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.add_circle),
+            icon: Icon(Icons.check),
             onPressed: () {
               print('tap');
             },
@@ -134,12 +114,12 @@ class _AddingDrug extends State<AddingDrug> {
         ],
       ),
       body: Row(
-        children: <Widget>[
+        children: [
           SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
@@ -152,42 +132,32 @@ class _AddingDrug extends State<AddingDrug> {
                           numeric: false,
                         ),
                         DataColumn(
-                          label: Text("Supplier name"),
+                          label: Text("Total price"),
                           numeric: false,
                         ),
                         DataColumn(
-                          label: Text("Drug name"),
+                          label: Text("Customer"),
                           numeric: false,
                         ),
                         DataColumn(
-                          label: Text("Quantity"),
+                          label: Text("State"),
                           numeric: false,
                         ),
                         DataColumn(
-                          label: Text("Price"),
+                          label: Text("Description"),
                           numeric: false,
                         ),
                         DataColumn(
-                          label: Text("Expire date"),
+                          label: Text("Đã nhận"),
                           numeric: false,
                         ),
-                        DataColumn(
-                          label: Text("Required permission"),
-                          numeric: false,
-                        ),
-                        // DataColumn(
-                        //   label: Text("Selling Price"),
-                        //   numeric: true,
-                        //   tooltip: "This is the product's Selling Price",
-                        // ),
-                        // DataColumn(
-                        //     label: Text("Profit"),
-                        //     numeric: true,
-                        //     tooltip: "This is the Profit margin"),
                       ],
                       rows: products
                           .map(
                             (product) => DataRow(
+                              onSelectChanged: (newValue) {
+                                // Navigator.pushNamed(context, '/doctor_order_items');
+                              },
                               cells: [
                                 DataCell(
                                   Text(
@@ -219,35 +189,14 @@ class _AddingDrug extends State<AddingDrug> {
                                     product["name"],
                                   ),
                                 ),
-                                DataCell(
-                                  Text(
-                                    product["name"],
-                                  ),
-                                ),
-                                // DataCell(
-                                //   Text(
-                                //     product.sellingPrice.toString(),
-                                //   ),
-                                // ),
-                                // DataCell(
-                                //   Text(
-                                //     (product.sellingPrice -
-                                //             product.buyingPrice)
-                                //         .toString(),
-                                //   ),
-                                // ),
                               ],
                             ),
                           )
                           .toList(),
                     ),
-                  ),
-                ),
-              )
-              //           }
-              //         }
-              //       }),
-              ),
+                  )),
+            ),
+          ),
         ],
       ),
     );

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_medical_management_project/auth/auth.dart';
+import 'package:flutter_medical_management_project/auth/user/user_auth.dart';
+import 'package:flutter_medical_management_project/auth/employee/employee_auth.dart';
 import 'package:flutter_medical_management_project/blocks/auth_block.dart';
 import 'package:flutter_medical_management_project/cart.dart';
 import 'package:flutter_medical_management_project/categorise.dart';
 import 'package:flutter_medical_management_project/home/home.dart';
-import 'package:flutter_medical_management_project/localizations.dart';
 import 'package:flutter_medical_management_project/product_detail.dart';
 import 'package:flutter_medical_management_project/settings.dart';
 import 'package:flutter_medical_management_project/shop/shop.dart';
@@ -18,6 +18,8 @@ import 'package:flutter_medical_management_project/pharmacist/home/pharmacist_ho
 import 'package:flutter_medical_management_project/pharmacist/order/pharmacist_order.dart';
 import 'package:flutter_medical_management_project/pharmacist/inventory/pharmacist_inventory.dart';
 import 'package:flutter_medical_management_project/pharmacist/adding_drug/adding_drug.dart';
+import 'package:flutter_medical_management_project/supplier/home/supplier_home.dart';
+import 'package:flutter_medical_management_project/supplier/order/supplier_order.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -27,7 +29,6 @@ void main() {
     providers: [ChangeNotifierProvider<AuthBlock>.value(value: AuthBlock())],
     child: MaterialApp(
       localizationsDelegates: [
-        AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
@@ -44,7 +45,8 @@ void main() {
       initialRoute: '/',
       routes: <String, WidgetBuilder>{
         '/': (BuildContext context) => Home(),
-        '/auth': (BuildContext context) => Auth(),
+        '/user_auth': (BuildContext context) => UserAuth(),
+        '/employee_auth': (BuildContext context) => EmployeeAuth(),
         '/shop': (BuildContext context) => Shop(),
         '/categorise': (BuildContext context) => Categorise(),
         '/wishlist': (BuildContext context) => WishList(),
@@ -60,6 +62,8 @@ void main() {
         '/pharmacist_inventory': (BuildContext context) =>
             PharmacistInventory(),
         '/pharmacist_adding_drug': (BuildContext context) => AddingDrug(),
+        '/supplier_home': (BuildContext context) => SupplierHome(),
+        '/supplier_order': (BuildContext context) => SupplierOrder(),
       },
     ),
   ));
