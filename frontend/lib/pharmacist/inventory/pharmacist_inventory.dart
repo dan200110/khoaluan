@@ -164,6 +164,10 @@ class _PharmacistInventory extends State<PharmacistInventory> {
                           numeric: false,
                         ),
                         DataColumn(
+                          label: Text("Image path"),
+                          numeric: false,
+                        ),
+                        DataColumn(
                           label: Text("Required permission"),
                           numeric: false,
                         ),
@@ -204,6 +208,11 @@ class _PharmacistInventory extends State<PharmacistInventory> {
                                 DataCell(
                                   Text(
                                     product["rating"].toString(),
+                                  ),
+                                ),
+                                DataCell(
+                                  Text(
+                                    product["name"],
                                   ),
                                 ),
                                 DataCell(

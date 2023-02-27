@@ -16,7 +16,32 @@ class AuthService {
           'email': userCredential.usernameOrEmail,
           'password': userCredential.password
         });
+    print(response.body);
+    if (response.statusCode == 200) {
+      // If the call to the server was successful, parse the JSON.
+      // return User.fromJson(json.decode(response.body));
+      setUser(response.body);
+      return jsonDecode(response.body);
+    } else {
+      if (response.statusCode == 401) {
+        Fluttertoast.showToast(
+            msg: "Invalid Credentials",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            fontSize: 16.0);
+      }
+      // If that call was not successful, throw an error.
+      throw Exception(response.body);
+    }
+  }
 
+  Future<Map> employee_login(UserCredential userCredential) async {
+    final response = await http.post(Uri.parse('$BASE_URL/api/employee/login'),
+        body: {
+          'email': userCredential.usernameOrEmail,
+          'password': userCredential.password
+        });
+    print(response.body);
     if (response.statusCode == 200) {
       // If the call to the server was successful, parse the JSON.
       // return User.fromJson(json.decode(response.body));
@@ -32,33 +57,6 @@ class AuthService {
       }
       // If that call was not successful, throw an error.
       throw Exception(response.body);
-      // return jsonDecode(response.body);
-    }
-  }
-
-  Future<Map> employee_login(UserCredential userCredential) async {
-    final response = await http.post(Uri.parse('$BASE_URL/api/employee/login'),
-        body: {
-          'email': userCredential.usernameOrEmail,
-          'password': userCredential.password
-        });
-
-    if (response.statusCode == 200) {
-      // If the call to the server was successful, parse the JSON.
-      // return User.fromJson(json.decode(response.body));
-      setUser(response.body);
-      return jsonDecode(response.body);
-    } else {
-      if (response.statusCode == 403) {
-        Fluttertoast.showToast(
-            msg: "Invalid Credentials",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.CENTER,
-            fontSize: 16.0);
-      }
-      // If that call was not successful, throw an error.
-//      throw Exception(response.body);
-      return jsonDecode(response.body);
     }
   }
 
@@ -70,6 +68,7 @@ class AuthService {
       'password': user.password,
       'email': user.email
     });
+    print(response.body);
     if (response.statusCode == 200) {
       // If the call to the server was successful, parse the JSON.
       // return User.fromJson(json.decode(response.body));
@@ -97,6 +96,7 @@ class AuthService {
       'password': user.password,
       'email': user.email
     });
+    print(response.body);
     if (response.statusCode == 200) {
       // If the call to the server was successful, parse the JSON.
       // return User.fromJson(json.decode(response.body));

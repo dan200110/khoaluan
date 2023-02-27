@@ -84,14 +84,25 @@ class _EmployeeSignInState extends State<EmployeeSignIn> {
                                   'Sign In',
                                   style: TextStyle(color: Colors.white),
                                 ),
-                          onPressed: () {
+                          onPressed: () async {
                             // Validate form
                             if (_formKey.currentState!.validate() &&
                                 !auth.loading) {
                               // Update values
                               _formKey.currentState!.save();
                               // Hit Api
-                              auth.employee_login(userCredential);
+
+                              bool isLogined =
+                                  await auth.employee_login(userCredential);
+                              if (isLogined) {
+                                Navigator.pop(context);
+                                if (auth.user['role'] == 'doctor') {
+                                  Navigator.pushNamed(context, '/doctor_home');
+                                } else {
+                                  Navigator.pushNamed(
+                                      context, '/pharmacist_home');
+                                }
+                              }
                             }
                           },
                         );

@@ -52,23 +52,34 @@ class AuthBlock extends ChangeNotifier {
     notifyListeners();
   }
 
-  user_login(UserCredential userCredential) async {
+  Future<bool> user_login(UserCredential userCredential) async {
     loading = true;
     loadingType = 'login';
-    Map<dynamic, dynamic> result =
-        await _authService.user_login(userCredential);
-    print(result);
-    // if (result['token'] == "error")
+    try {
+      await _authService.user_login(userCredential);
+    } catch (e) {
+      print(e);
+      loading = false;
+      return false;
+    }
     setUser();
     loading = false;
+    return true;
   }
 
   employee_login(UserCredential userCredential) async {
     loading = true;
     loadingType = 'login';
-    await _authService.employee_login(userCredential);
+    try {
+      await _authService.employee_login(userCredential);
+    } catch (e) {
+      print(e);
+      loading = false;
+      return false;
+    }
     setUser();
     loading = false;
+    return true;
   }
 
   user_register(User user) async {

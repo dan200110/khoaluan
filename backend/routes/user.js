@@ -66,6 +66,7 @@ router.post("/login", (req, res, next) => {
         name: fetchedUser.name,
         email: fetchedUser.email,
         token: token,
+        role: "user",
         expiresIn: 3600,
         message: "Logged in Successfully"
       });

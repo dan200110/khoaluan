@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_medical_management_project/blocks/auth_block.dart';
+import 'package:provider/provider.dart';
 
 class DoctorHome extends StatefulWidget {
   @override
@@ -8,6 +10,7 @@ class DoctorHome extends StatefulWidget {
 class _HomeState extends State<DoctorHome> {
   @override
   Widget build(BuildContext context) {
+    AuthBlock auth = Provider.of<AuthBlock>(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -44,7 +47,10 @@ class _HomeState extends State<DoctorHome> {
                     color: Theme.of(context).colorScheme.secondary),
                 title: Text('Logout'),
                 onTap: () async {
-                  // await auth.logout();
+                  auth.logout().then((value) {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, '/');
+                  });
                 },
               ),
             ]),

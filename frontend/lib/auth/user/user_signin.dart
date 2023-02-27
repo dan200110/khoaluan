@@ -84,17 +84,19 @@ class _UserSignInState extends State<UserSignIn> {
                                   'Sign In',
                                   style: TextStyle(color: Colors.white),
                                 ),
-                          onPressed: () {
+                          onPressed: () async {
                             // Validate form
                             if (_formKey.currentState!.validate() &&
                                 !auth.loading) {
                               // Update values
                               _formKey.currentState!.save();
                               // Hit Api
-                              auth.user_login(userCredential).then((value) {
+                              bool isLogined =
+                                  await auth.user_login(userCredential);
+                              if (isLogined) {
                                 Navigator.pop(context);
                                 Navigator.pushNamed(context, '/');
-                              });
+                              }
                             }
                           },
                         );
