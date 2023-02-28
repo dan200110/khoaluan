@@ -6,11 +6,10 @@ const Sales = require('../models/sales');
 
 router.post("",(req,res,next)=>{
   const sales = new Sales({
+    drugId: req.body.drugId,
     drugName: req.body.drugName,
-    totalPrice: req.body.totalPrice,
-    tax: req.body.tax,
-    paidAmount: req.body.paidAmount,
-    balance: req.body.balance
+    price: req.body.price,
+    quantity: req.body.quantity
   });
 
   sales.save().then(createdSales=>{
@@ -26,12 +25,12 @@ router.post("",(req,res,next)=>{
   router.get("/getSalesChartInfo",(req,res,next)=>{
 
     Sales.aggregate([{ "$project": {
-                                        "paidAmount": 1,
+                                        "price": 1,
                                         "month": { "$month": "$dateTime" }
                                     }},
                                     { "$group": {
                                         "_id": "$month",
-                                        "total": { "$sum": { $toDouble: "$paidAmount" }}
+                                        "total": { "$sum": { $toDouble: "$price" }}
                                     }}
                                   ])
     .then(documents=>{
@@ -45,7 +44,7 @@ router.post("",(req,res,next)=>{
   router.get("",(req,res,next)=>{
     Sales.find().then(documents=>{
       res.status(200).json({
-        message : 'sales added sucessfully',
+        message : 'get all sales sucessfully',
         sales :documents
       });
     });

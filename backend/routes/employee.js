@@ -54,7 +54,7 @@ router.post("/login" , (req, res ,  next)=>{
     }
     const token = jwt.sign(
       {email: fetchedUser.email , userId : fetchedUser ._id, name:fetchedUser.name, contact:fetchedUser.contact , docId:fetchedUser.docId} ,
-      'this_is_the_webToken_secret_key' ,
+      'this_is_the_webToken_secret_keys' ,
       { expiresIn : "1h"}
       );
       res.status(200).json({
