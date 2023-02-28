@@ -84,6 +84,24 @@ router.post("",(req,res,next)=>{
     });
   });
 
+  router.get("/getAllUnverifiedDoctorOrderByDoctorId",(req,res,next)=>{
+    DoctorOder.find({isVerified: false, doctorId: req.body.docId}).then(documents=>{
+      res.status(200).json({
+        message : 'Get all Un Verified Doctor oder by doctorId sucessfully',
+        doctorOders :documents
+      });
+    });
+  });
+
+  router.get("/getAllUnPickedUpDoctorOrderByDoctorId",(req,res,next)=>{
+    DoctorOder.find({isPickedUp: false, doctorId: req.body.docId}).then(documents=>{
+      res.status(200).json({
+        message : 'Get all Un PickedUp Doctor oder by DoctorId sucessfully',
+        doctorOders :documents
+      });
+    });
+  });
+
   router.post("/sendmail", (req, res) => {
     console.log("request came");
     let user = req.body;
