@@ -1,4 +1,4 @@
-const path  =require("path");
+const path = require("path");
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -15,14 +15,14 @@ const pickedUpOdersRoutes = require('./routes/pickedUpOders');
 
 
 
-mongoose.connect('mongodb+srv://nguyentiendan:dan200110@cluster0.zk6stlq.mongodb.net/?retryWrites=true&w=majority',{useNewUrlParser: true , useUnifiedTopology: true})
-  .then(()=>{
+mongoose.connect('mongodb+srv://nguyentiendan:dan200110@cluster0.zk6stlq.mongodb.net/?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
     console.log('connected to database!');
   })
-  .catch(()=>{
+  .catch(() => {
     console.log('connect fail! ');
   });
-  mongoose.set('useCreateIndex', true);
+mongoose.set('useCreateIndex', true);
 
 //OJx2X4IllVNl9up4
 
@@ -32,8 +32,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/backend/images" , express.static(path.join("backend/images")));
 
 
-app.use((req,res,next)=>{
-  res.setHeader("Access-Control-Allow-Origin","*");
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With ,Content-Type,Authorization ,Accept",
@@ -108,13 +108,13 @@ app.use((req,res,next)=>{
 //   });
 // });
 
-app.use("/api/supplier",supplierRoutes);
-app.use("/api/inventory",inventoryRoutes);
-app.use("/api/user",userRoutes);
-app.use("/api/sales",salesRoutes);
-app.use("/api/employee",employeeRoutes);
-app.use("/api/doctorOder",doctorOderRoutes);
-app.use("/api/verifiedDoctorOder",verifiedDoctorOderRoutes);
-app.use("/api/pickedUpOders",pickedUpOdersRoutes);
+app.use("/api/supplier", supplierRoutes);
+app.use("/api/inventory", inventoryRoutes);
+app.use("/api/user", userRoutes);
+app.use("/api/sales", salesRoutes);
+app.use("/api/employee", employeeRoutes);
+app.use("/api/doctorOder", doctorOderRoutes);
+app.use("/api/verifiedDoctorOder", verifiedDoctorOderRoutes);
+app.use("/api/pickedUpOders", pickedUpOdersRoutes);
 
 module.exports = app;
