@@ -5,8 +5,8 @@ import 'package:flutter_medical_management_project/models/doctorOrder.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 
-class InventoryService {
-  Future<List<DoctorOrderModel>> getAllInventory() async {
+class DoctorOrderService {
+  Future<List<DoctorOrderModel>> getAllDoctorOrder() async {
     final response = await http.get(Uri.parse('$BASE_URL/api/doctorOder'));
     if (response.statusCode == 200) {
       Map jsonResponse = jsonDecode(response.body);

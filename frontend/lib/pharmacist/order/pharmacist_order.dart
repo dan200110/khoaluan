@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_medical_management_project/models/doctorOrder.dart';
+import 'package:flutter_medical_management_project/services/doctorOrder_service.dart';
 
 class PharmacistOrder extends StatefulWidget {
   @override
@@ -6,101 +8,18 @@ class PharmacistOrder extends StatefulWidget {
 }
 
 class _PharmacistOrder extends State<PharmacistOrder> {
-  final List<Map<dynamic, dynamic>> products = [
-    {
-      'name': 'IPhone',
-      'rating': 3,
-      'image':
-          'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80'
-    },
-    {
-      'name': 'IPhone X 2',
-      'rating': 3,
-      'image':
-          'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80'
-    },
-    {
-      'name': 'IPhone 11',
-      'rating': 4,
-      'image':
-          'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80'
-    },
-    {
-      'name': 'IPhone 11',
-      'rating': 4,
-      'image':
-          'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80'
-    },
-    {
-      'name': 'IPhone 11',
-      'rating': 4,
-      'image':
-          'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80'
-    },
-    {
-      'name': 'IPhone 11',
-      'rating': 4,
-      'image':
-          'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80'
-    },
-    {
-      'name': 'IPhone 11',
-      'rating': 4,
-      'image':
-          'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80'
-    },
-    {
-      'name': 'IPhone 11',
-      'rating': 4,
-      'image':
-          'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80'
-    },
-    {
-      'name': 'IPhone 11',
-      'rating': 4,
-      'image':
-          'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80'
-    },
-    {
-      'name': 'IPhone 12',
-      'rating': 5,
-      'image':
-          'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80'
-    },
-    {
-      'name': 'IPhone 12',
-      'rating': 5,
-      'image':
-          'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80'
-    },
-    {
-      'name': 'IPhone 12',
-      'rating': 5,
-      'image':
-          'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80'
-    },
-    {
-      'name': 'IPhone 12',
-      'rating': 5,
-      'image':
-          'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80'
-    },
-    {
-      'name': 'IPhone 12',
-      'rating': 5,
-      'image':
-          'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80'
-    },
-    {
-      'name': 'IPhone 12',
-      'rating': 5,
-      'image':
-          'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80'
-    },
-  ];
+  DoctorOrderService doctorOrderService = DoctorOrderService();
+  List<DoctorOrderModel> doctor_orders = List.empty();
 
   @override
   Widget build(BuildContext context) {
+    doctorOrderService.getAllDoctorOrder().then((result) {
+      setState(() {
+        doctor_orders = List.from(result);
+      });
+    }).catchError((err) {
+      print(err);
+    });
     return Scaffold(
       appBar: AppBar(
         title: Text("All drug order"),
@@ -132,61 +51,70 @@ class _PharmacistOrder extends State<PharmacistOrder> {
                           numeric: false,
                         ),
                         DataColumn(
-                          label: Text("Total price"),
+                          label: Text("Doctor Name"),
                           numeric: false,
                         ),
                         DataColumn(
-                          label: Text("Customer"),
+                          label: Text("Doctor Contact"),
                           numeric: false,
                         ),
                         DataColumn(
-                          label: Text("State"),
+                          label: Text("drug Id"),
                           numeric: false,
                         ),
                         DataColumn(
-                          label: Text("Description"),
+                          label: Text("drug Names"),
                           numeric: false,
                         ),
                         DataColumn(
-                          label: Text("Đã nhận"),
+                          label: Text("total Amount"),
+                          numeric: false,
+                        ),
+                        DataColumn(
+                          label: Text("pickup Date"),
                           numeric: false,
                         ),
                       ],
-                      rows: products
+                      rows: doctor_orders
                           .map(
-                            (product) => DataRow(
+                            (doctor_order) => DataRow(
                               onSelectChanged: (newValue) {
                                 // Navigator.pushNamed(context, '/doctor_order_items');
                               },
                               cells: [
                                 DataCell(
                                   Text(
-                                    product["rating"].toString(),
+                                    doctor_order.doctorName!,
                                   ),
                                 ),
                                 DataCell(
                                   Text(
-                                    product["rating"].toString(),
+                                    doctor_order.doctorName!,
                                   ),
                                 ),
                                 DataCell(
                                   Text(
-                                    product["name"],
+                                    doctor_order.doctorContact!,
                                   ),
                                 ),
                                 DataCell(
                                   Text(
-                                    product["rating"].toString(),
+                                    doctor_order.drugId.toString(),
                                   ),
                                 ),
                                 DataCell(
                                   Text(
-                                    product["rating"].toString(),
+                                    doctor_order.drugId.toString(),
                                   ),
                                 ),
                                 DataCell(
                                   Text(
-                                    product["name"],
+                                    doctor_order.totalAmount!,
+                                  ),
+                                ),
+                                DataCell(
+                                  Text(
+                                    doctor_order.pickupDate!,
                                   ),
                                 ),
                               ],

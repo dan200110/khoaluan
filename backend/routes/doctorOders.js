@@ -7,7 +7,7 @@ const nodemailer = require("nodemailer");
 const DoctorOder = require('../models/doctorOders');
 
 
-router.post("",(req,res,next)=>{
+router.post("", (req, res, next) => {
   const docOder = new DoctorOder({
     doctorName: req.body.doctorName,
     doctorContact: req.body.doctorContact,
@@ -21,96 +21,95 @@ router.post("",(req,res,next)=>{
     totalAmount: req.body.totalAmount,
     pickupDate: req.body.pickupDate
   });
-  docOder.save().then(createdDocOder=>{
-  res.status(201).json({
-    message:'Doctor Oder Added Successfully',
-    doctorOderId : createdDocOder._id
-  });
-
-  });
-
-  });
-
-  router.get("",(req,res,next)=>{
-    DoctorOder.find().then(documents=>{
-      res.status(200).json({
-        message : 'Get all Doctor oder sucessfully',
-        doctorOders :documents
-      });
-    });
-  });
-
-  router.delete("/:id", (req, res, next) => {
-    DoctorOder.deleteOne({ _id: req.params.id }).then(result => {
-      console.log(result);
-      res.status(200).json({ message: 'Doctor order deleted!' });
-    });
-  });
-
-
-  router.put("/verifiedDoctorOrder/:id",(req,res,next)=>{
-    DoctorOder.updateOne({_id: req.params.id}, {
-      isVerified: true
-    }).then(result => {
-      res.status(200).json({message : "Verified Doctor Order Successful !"});
-    });
-  });
-
-
-  router.put("/pickedUpDoctorOrder/:id",(req,res,next)=>{
-    DoctorOder.updateOne({_id: req.params.id}, {
-      isPickedUp: true
-    }).then(result => {
-      res.status(200).json({message : "PickedUp Doctor Order Successful !"});
-    });
-  });
-
-  router.get("/getAllPickedUpDoctorOrder",(req,res,next)=>{
-    DoctorOder.find({isPickedUp: true}).then(documents=>{
-      res.status(200).json({
-        message : 'Get all PickedUp Doctor oder sucessfully',
-        doctorOders :documents
-      });
-    });
-  });
-
-
-  router.get("/getAllVerifiedDoctorOrder",(req,res,next)=>{
-    DoctorOder.find({isVerified: true}).then(documents=>{
-      res.status(200).json({
-        message : 'Get all Verified Doctor oder sucessfully',
-        doctorOders :documents
-      });
-    });
-  });
-
-  router.post("/sendmail", (req, res) => {
-    console.log("request came");
-    let user = req.body;
-    sendMail(user, info => {
-      console.log(`The mail has been send 😃 and the id is ${info.messageId}`);
-      res.send(info);
-    });
-  });
-
-
-  async function sendMail(user, callback) {
-    // reusable transporter object using the default SMTP transport
-    let transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 587,
-      secure: false, // true for 465, false for other ports
-      auth: {
-        user: "pharmacare.contactus@gmail.com",
-        pass: "lalana1011294"
-      }
+  docOder.save().then(createdDocOder => {
+    res.status(201).json({
+      message: 'Doctor Oder Added Successfully',
+      doctorOderId: createdDocOder._id
     });
 
-    let mailOptions = {
-      from: '"Pharma Care Pharmacies"<example.gmail.com>', // sender address
-      to: user.email, // list of receivers
-      subject: "We Recived Your Oder 👻", // Subject line
-      html: `
+  });
+
+});
+
+router.get("", (req, res, next) => {
+  DoctorOder.find().then(documents => {
+    res.status(200).json({
+      doctorOders: documents
+    });
+  });
+});
+
+router.delete("/:id", (req, res, next) => {
+  DoctorOder.deleteOne({ _id: req.params.id }).then(result => {
+    console.log(result);
+    res.status(200).json({ message: 'Doctor order deleted!' });
+  });
+});
+
+
+router.put("/verifiedDoctorOrder/:id", (req, res, next) => {
+  DoctorOder.updateOne({ _id: req.params.id }, {
+    isVerified: true
+  }).then(result => {
+    res.status(200).json({ message: "Verified Doctor Order Successful !" });
+  });
+});
+
+
+router.put("/pickedUpDoctorOrder/:id", (req, res, next) => {
+  DoctorOder.updateOne({ _id: req.params.id }, {
+    isPickedUp: true
+  }).then(result => {
+    res.status(200).json({ message: "PickedUp Doctor Order Successful !" });
+  });
+});
+
+router.get("/getAllPickedUpDoctorOrder", (req, res, next) => {
+  DoctorOder.find({ isPickedUp: true }).then(documents => {
+    res.status(200).json({
+      message: 'Get all PickedUp Doctor oder sucessfully',
+      doctorOders: documents
+    });
+  });
+});
+
+
+router.get("/getAllVerifiedDoctorOrder", (req, res, next) => {
+  DoctorOder.find({ isVerified: true }).then(documents => {
+    res.status(200).json({
+      message: 'Get all Verified Doctor oder sucessfully',
+      doctorOders: documents
+    });
+  });
+});
+
+router.post("/sendmail", (req, res) => {
+  console.log("request came");
+  let user = req.body;
+  sendMail(user, info => {
+    console.log(`The mail has been send 😃 and the id is ${info.messageId}`);
+    res.send(info);
+  });
+});
+
+
+async function sendMail(user, callback) {
+  // reusable transporter object using the default SMTP transport
+  let transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: "pharmacare.contactus@gmail.com",
+      pass: "lalana1011294"
+    }
+  });
+
+  let mailOptions = {
+    from: '"Pharma Care Pharmacies"<example.gmail.com>', // sender address
+    to: user.email, // list of receivers
+    subject: "We Recived Your Oder 👻", // Subject line
+    html: `
       <head>
       <style>
         table {
@@ -202,13 +201,13 @@ router.post("",(req,res,next)=>{
       <h4>If there is any issue reagrding the oder please be free to contact us or email us (pharmacare.contactus@gmail.com) 😃 </h4>
       </body>
       `
-    };
+  };
 
-    // send mail with defined transport object
-    let info = await transporter.sendMail(mailOptions);
+  // send mail with defined transport object
+  let info = await transporter.sendMail(mailOptions);
 
-    callback(info);
-  }
+  callback(info);
+}
 
 
-  module.exports = router;
+module.exports = router;

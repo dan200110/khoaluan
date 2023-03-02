@@ -3,24 +3,24 @@ const router = express.Router();
 const multer = require("multer");
 const nodemailer = require("nodemailer");
 
-const MIME_TYPE_MAP ={
-  'image/png' : 'png',
-  'image/jpeg' : 'jpg',
-  'image/jpg' : 'jpg'
+const MIME_TYPE_MAP = {
+  'image/png': 'png',
+  'image/jpeg': 'jpg',
+  'image/jpg': 'jpg'
 };
 
 const Inventory = require('../models/inventory');
 
-const storage =multer.diskStorage({
-  destination: (req, file ,cb) =>{
-    const isValid  = MIME_TYPE_MAP[file.mimetype];
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const isValid = MIME_TYPE_MAP[file.mimetype];
     let error = new Error("mime type invalid");
-    if(isValid){
+    if (isValid) {
       error = null;
     }
     cb(error, "backend/images");
   },
-  filename :(req, file ,cb) => {
+  filename: (req, file, cb) => {
     const name = file.originalname.toLowerCase().split(' ').join('-');
     const ext = MIME_TYPE_MAP[file.mimetype];
     cb(null, name + '-' + Date.now() + '.' + ext);
@@ -28,8 +28,8 @@ const storage =multer.diskStorage({
 });
 
 
-router.post("",multer({storage: storage}).single("image"),(req,res,next)=>{
-  const url =req.protocol + '://' + req.get("host");
+router.post("", multer({ storage: storage }).single("image"), (req, res, next) => {
+  const url = req.protocol + '://' + req.get("host");
   const inventory = new Inventory({
     supplierId: req.body.supplierId,
     supplierName: req.body.supplierName,
@@ -37,27 +37,27 @@ router.post("",multer({storage: storage}).single("image"),(req,res,next)=>{
     quantity: req.body.quantity,
     expireDate: req.body.expireDate,
     price: req.body.price,
-    imagePath : url + "/backend/images/" + req.file.filename
-    });
-  inventory.save().then(createdInventory=>{
-  res.status(201).json({
-      message:'Inventory Added Successfully',
+    imagePath: url + "/backend/images/" + req.file.filename
+  });
+  inventory.save().then(createdInventory => {
+    res.status(201).json({
+      message: 'Inventory Added Successfully',
       inventory: {
         ...createdInventory,
-        id : createdInventory._id
+        id: createdInventory._id
 
       }
-      });
+    });
   });
 });
 
 
-router.put("/:id",multer({storage: storage}).single("image"), (req,res,next)=>{
+router.put("/:id", multer({ storage: storage }).single("image"), (req, res, next) => {
 
   let imagePath = req.body.imagePath;
-  if(req.file){
-    const url =req.protocol + '://' + req.get("host");
-    imagePath =url + "/images/" + req.file.filename;
+  if (req.file) {
+    const url = req.protocol + '://' + req.get("host");
+    imagePath = url + "/images/" + req.file.filename;
   };
   const inventory = new Inventory({
     _id: req.body.id,
@@ -65,133 +65,134 @@ router.put("/:id",multer({storage: storage}).single("image"), (req,res,next)=>{
     supplierName: req.body.supplierName,
     name: req.body.name,
     quantity: req.body.quantity,
-    expireDate:new Date(req.body.expireDate),
+    expireDate: new Date(req.body.expireDate),
     price: req.body.price,
     imagePath: imagePath
   });
   console.log(inventory);
-  Inventory.updateOne({_id: req.params.id}, inventory).then(result => {
+  Inventory.updateOne({ _id: req.params.id }, inventory).then(result => {
     console.log(result);
-    res.status(200).json({message : "Update Successful !"});
+    res.status(200).json({ message: "Update Successful !" });
   });
 });
 
 
-router.put("/updateQuantity/:id",(req,res,next)=>{
+router.put("/updateQuantity/:id", (req, res, next) => {
   const inventory = new Inventory({
     _id: req.body.id,
     quantity: req.body.quantity
 
 
-  });console.log(inventory)
-  Inventory.updateOne({_id: req.params.id}, inventory).then(result => {
+  }); console.log(inventory)
+  Inventory.updateOne({ _id: req.params.id }, inventory).then(result => {
     console.log(result);
-    res.status(200).json({message : "Update quantity Successful !"});
+    res.status(200).json({ message: "Update quantity Successful !" });
   });
 });
 
 
-router.get("",(req,res,next)=>{
+router.get("", (req, res, next) => {
   const pageSize = +req.query.pagesize;
   const currentPage = +req.query.page;
   const postQuery = Inventory.find();
-  if(pageSize && currentPage){
+  if (pageSize && currentPage) {
     postQuery
-      .skip(pageSize * (currentPage-1))
+      .skip(pageSize * (currentPage - 1))
       .limit(pageSize);
   }
-  postQuery.then(documents=>{
+  postQuery.then(documents => {
     res.status(200).json({
-      message : 'get all inventory sucessfully',
-      inventorys :documents
+      inventorys: documents
     });
   });
 });
 
 
-router.get("/outofstock",(req,res,next)=>{
+router.get("/outofstock", (req, res, next) => {
   const pageSize = +req.query.pagesize;
   const currentPage = +req.query.page;
-  const postQuery = Inventory.find({ $expr: { $lte: [ { $toDouble: "$quantity" }, 1.0 ] }});
-  if(pageSize && currentPage){
+  const postQuery = Inventory.find({ $expr: { $lte: [{ $toDouble: "$quantity" }, 1.0] } });
+  if (pageSize && currentPage) {
     postQuery
-      .skip(pageSize * (currentPage-1))
+      .skip(pageSize * (currentPage - 1))
       .limit(pageSize);
   }
-  postQuery.then(documents=>{
+  postQuery.then(documents => {
     res.status(200).json({
-      message : 'inventory min quanity items obtained  sucessfully',
-      inventorys :documents
+      message: 'inventory min quanity items obtained  sucessfully',
+      inventorys: documents
     });
   });
 });
 
 
-router.get("/abouttooutofstock",(req,res,next)=>{
+router.get("/abouttooutofstock", (req, res, next) => {
   const pageSize = +req.query.pagesize;
   const currentPage = +req.query.page;
-  const postQuery = Inventory.find({$and: [
-                                    { $expr: { $lte: [ { $toDouble: "$quantity" }, 500.0 ] }},
-                                    { $expr: { $gte: [ { $toDouble: "$quantity" }, 1.0 ] }}
-                                  ]});
-  if(pageSize && currentPage){
+  const postQuery = Inventory.find({
+    $and: [
+      { $expr: { $lte: [{ $toDouble: "$quantity" }, 500.0] } },
+      { $expr: { $gte: [{ $toDouble: "$quantity" }, 1.0] } }
+    ]
+  });
+  if (pageSize && currentPage) {
     postQuery
-      .skip(pageSize * (currentPage-1))
+      .skip(pageSize * (currentPage - 1))
       .limit(pageSize);
   }
-  postQuery.then(documents=>{
+  postQuery.then(documents => {
     res.status(200).json({
-      message : 'inventory min quanity items obtained  sucessfully',
-      inventorys :documents
+      message: 'inventory min quanity items obtained  sucessfully',
+      inventorys: documents
     });
   });
 });
 
-router.get("/getExpired",(req,res,next)=>{
+router.get("/getExpired", (req, res, next) => {
   const pageSize = +req.query.pagesize;
   const currentPage = +req.query.page;
-  const postQuery = Inventory.find({expireDate:{$lte:new Date()}});
-  if(pageSize && currentPage){
+  const postQuery = Inventory.find({ expireDate: { $lte: new Date() } });
+  if (pageSize && currentPage) {
     postQuery
-      .skip(pageSize * (currentPage-1))
+      .skip(pageSize * (currentPage - 1))
       .limit(pageSize);
   }
-  postQuery.then(documents=>{
+  postQuery.then(documents => {
     res.status(200).json({
-      message : 'get inventory expired sucessfully',
-      inventorys :documents
+      message: 'get inventory expired sucessfully',
+      inventorys: documents
     });
   });
 });
 
-router.get("/getAboutToExpire",(req,res,next)=>{
+router.get("/getAboutToExpire", (req, res, next) => {
   const pageSize = +req.query.pagesize;
   const currentPage = +req.query.page;
   var date = new Date();
   var date10 = new Date(date.getTime());
   date10.setDate(date10.getDate() + 10);
 
-  const postQuery = Inventory.find({expireDate:{$lte:new Date(date10),$gte:new Date()}});
-  if(pageSize && currentPage){
+  const postQuery = Inventory.find({ expireDate: { $lte: new Date(date10), $gte: new Date() } });
+  if (pageSize && currentPage) {
     postQuery
-      .skip(pageSize * (currentPage-1))
+      .skip(pageSize * (currentPage - 1))
       .limit(pageSize);
   }
-  postQuery.then(documents=>{
+  postQuery.then(documents => {
     res.status(200).json({
-      message : 'get inventory about to expire',
-      inventorys :documents
+      message: 'get inventory about to expire',
+      inventorys: documents
     });
   });
 });
 
 
-router.get("/:id",(req,res,next)=>{
-  Inventory.findById(req.params.id).then(inventory =>{
-    if(inventory){
+router.get("/:id", (req, res, next) => {
+  Inventory.findById(req.params.id).then(inventory => {
+    if (inventory) {
       res.status(200).json(inventory);
-    }else{
-      res.status(200).json({message:'Inventory not found'});
+    } else {
+      res.status(200).json({ message: 'Inventory not found' });
     }
   });
 });
@@ -230,7 +231,7 @@ async function sendMail(user, callback) {
   let mailOptions = {
     from: '"Pharma Care Pharmacies"<example.gmail.com>', // sender address
     to: user.email, // list of receivers
-    subject: "Requesting New Drug Oder "+user.name, // Subject line
+    subject: "Requesting New Drug Oder " + user.name, // Subject line
     html: `
     <head>
     <style>
@@ -330,7 +331,7 @@ async function sendmailOutOfStock(user, callback) {
   let mailOptions = {
     from: '"Pharma Care Pharmacies"<example.gmail.com>', // sender address
     to: user.email, // list of receivers
-    subject: "Requesting New Drug Oder "+user.name, // Subject line
+    subject: "Requesting New Drug Oder " + user.name, // Subject line
     html: `
     <head>
     <style>
