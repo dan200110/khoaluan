@@ -16,7 +16,7 @@ router.post("", (req, res, next) => {
     userId: req.body.userId,
     userName: req.body.userName,
     drugId: req.body.drugId,
-    drugNames: req.body.drugName,
+    drugNames: req.body.drugNames,
     drugPrice: req.body.drugPrice,
     drugQuantity: req.body.drugQuantity,
     realQuantity: req.body.realQuantity,
