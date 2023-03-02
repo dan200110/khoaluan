@@ -5,7 +5,7 @@ const checkDocAuth = require("../middleware/check-docAuth");
 
 const Supplier = require('../models/supplier');
 
-router.post("",checkAuth,(req,res,next)=>{
+router.post("",checkDocAuth,(req,res,next)=>{
   const supplier = new Supplier({
     supplierID: req.body.supplierID,
     name: req.body.name,
@@ -23,7 +23,7 @@ router.post("",checkAuth,(req,res,next)=>{
 
   });
 
-  router.put("/:id",checkAuth,(req,res,next)=>{
+  router.put("/:id",checkDocAuth,(req,res,next)=>{
     const supplier = new Supplier({
       _id: req.body.id,
       supplierID: req.body.supplierID,
@@ -41,7 +41,7 @@ router.post("",checkAuth,(req,res,next)=>{
   router.get("",(req,res,next)=>{
     Supplier.find().then(documents=>{
       res.status(200).json({
-        message : 'supplier added sucessfully',
+        message : 'get all supplier sucessfully',
         suppliers :documents
       });
     });

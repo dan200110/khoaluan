@@ -12,7 +12,6 @@ router.post("/signup", (req, res, next) => {
         contact: req.body.contact,
         email: req.body.email,
         password: hash,
-        role: req.body.role
       });
 
       user.save()
@@ -41,7 +40,6 @@ router.post("/login", (req, res, next) => {
       return res.status(401).json({
         token: "error",
         expiresIn: "error",
-        role: "error",
         message: "Invalid Email (user email not registered)"
       });
     }
@@ -53,7 +51,6 @@ router.post("/login", (req, res, next) => {
         return res.status(401).json({
           token: "error",
           expiresIn: "error",
-          role: "error",
           message: "Invalid password please try again"
         });
       }
@@ -66,7 +63,6 @@ router.post("/login", (req, res, next) => {
         name: fetchedUser.name,
         email: fetchedUser.email,
         token: token,
-        role: "user",
         expiresIn: 3600,
         message: "Logged in Successfully"
       });
