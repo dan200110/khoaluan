@@ -20,9 +20,14 @@ class DoctorOrderService {
     }
   }
 
-  Future<List<DoctorOrderModel>> getAllUnverifiedDoctorOrderByDoctorId() async {
-    final response = await http
-        .get(Uri.parse('$BASE_URL/api/getAllUnverifiedDoctorOrderByDoctorId'));
+  Future<List<DoctorOrderModel>> getAllUnverifiedDoctorOrderByDoctorId(
+      String doctorId) async {
+    final response = await http.get(Uri.parse(
+            '$BASE_URL/api/doctorOder/getAllUnverifiedDoctorOrderByDoctorId')
+        .replace(queryParameters: {
+      'doctorId': doctorId,
+    }));
+    print(response);
     if (response.statusCode == 200) {
       Map jsonResponse = jsonDecode(response.body);
       List<dynamic> parsedListJson = jsonResponse["doctorOders"];
