@@ -13,6 +13,8 @@ router.post("", (req, res, next) => {
     doctorContact: req.body.doctorContact,
     doctorID: req.body.doctorId,
     doctorEmail: req.body.doctorEmail,
+    userId: req.body.userId,
+    userName: req.body.userName,
     drugId: req.body.drugId,
     drugNames: req.body.drugName,
     drugPrice: req.body.drugPrice,

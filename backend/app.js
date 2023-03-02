@@ -29,7 +29,7 @@ mongoose.connect('mongodb+srv://nguyentiendan:dan200110@cluster0.zk6stlq.mongodb
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use("/images" , express.static(path.join("images")));
+app.use("/backend/images" , express.static(path.join("backend/images")));
 
 
 app.use((req,res,next)=>{

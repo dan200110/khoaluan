@@ -5,6 +5,8 @@ const doctorOderSchema = mongoose.Schema({
   doctorContact: {type: String , require:true},
   doctorID: {type: String , require:true},
   doctorEmail: {type: String , require:true},
+  userID: {type: String , require:true},
+  userName: {type: String , require:true},
   drugId : { type: Array , require: true},
   drugNames : { type: Array , require: true},
   drugPrice: {type: Array , require:true},
