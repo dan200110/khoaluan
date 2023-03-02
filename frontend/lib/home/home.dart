@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_medical_management_project/models/inventory.dart';
 import 'package:flutter_medical_management_project/services/inventory_service.dart';
+import 'package:flutter_medical_management_project/config.dart';
 
 import 'drawer.dart';
 import 'slider.dart';
@@ -202,7 +203,10 @@ class _HomeState extends State<Home> {
                                         width: double.infinity,
                                         child: CachedNetworkImage(
                                           fit: BoxFit.cover,
-                                          imageUrl: inventory.imagePath!,
+                                          height: 1000,
+                                          width: 1000,
+                                          imageUrl: "$BASE_URL" +
+                                              inventory.imagePath!,
                                           placeholder: (context, url) => Center(
                                               child:
                                                   CircularProgressIndicator()),

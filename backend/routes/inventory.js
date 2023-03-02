@@ -29,7 +29,7 @@ const storage = multer.diskStorage({
 
 
 router.post("", multer({ storage: storage }).single("image"), (req, res, next) => {
-  const url = req.protocol + '://' + req.get("host");
+  // const url = req.protocol + '://' + req.get("host");
   const inventory = new Inventory({
     supplierId: req.body.supplierId,
     supplierName: req.body.supplierName,
@@ -37,7 +37,7 @@ router.post("", multer({ storage: storage }).single("image"), (req, res, next) =
     quantity: req.body.quantity,
     expireDate: req.body.expireDate,
     price: req.body.price,
-    imagePath: url + "/backend/images/" + req.file.filename
+    imagePath: "/backend/images/" + req.file.filename
   });
   inventory.save().then(createdInventory => {
     res.status(201).json({
