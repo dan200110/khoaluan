@@ -1,20 +1,18 @@
 import 'dart:ffi';
 
 class InventoryModel {
-  String? email;
   String? name;
-  int? quantity;
-  String? batchId;
+  String? quantity;
+  String? imagePath;
   String? expireDate;
-  int? price;
+  String? price;
   String? supplierId;
   String? supplierName;
 
   InventoryModel({
-    required this.email,
     required this.name,
     required this.quantity,
-    required this.batchId,
+    required this.imagePath,
     required this.expireDate,
     required this.price,
     required this.supplierId,
@@ -22,10 +20,9 @@ class InventoryModel {
   });
   factory InventoryModel.fromJson(Map<String, dynamic> json) {
     return InventoryModel(
-      email: json['email'],
       name: json['name'],
       quantity: json['quantity'],
-      batchId: json['batchId'],
+      imagePath: json['imagePath'],
       expireDate: json['expireDate'],
       price: json['price'],
       supplierId: json['supplierId'],

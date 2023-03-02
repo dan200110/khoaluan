@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_medical_management_project/models/inventory.dart';
+import 'package:flutter_medical_management_project/services/inventory_service.dart';
 
 class PharmacistInventory extends StatefulWidget {
   @override
@@ -6,117 +8,22 @@ class PharmacistInventory extends StatefulWidget {
 }
 
 class _PharmacistInventory extends State<PharmacistInventory> {
-  final List<Map<dynamic, dynamic>> products = [
-    {
-      'name': 'IPhone',
-      'rating': 3,
-      'image':
-          'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80'
-    },
-    {
-      'name': 'IPhone X 2',
-      'rating': 3,
-      'image':
-          'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80'
-    },
-    {
-      'name': 'IPhone 11',
-      'rating': 4,
-      'image':
-          'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80'
-    },
-    {
-      'name': 'IPhone 11',
-      'rating': 4,
-      'image':
-          'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80'
-    },
-    {
-      'name': 'IPhone 11',
-      'rating': 4,
-      'image':
-          'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80'
-    },
-    {
-      'name': 'IPhone 11',
-      'rating': 4,
-      'image':
-          'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80'
-    },
-    {
-      'name': 'IPhone 11',
-      'rating': 4,
-      'image':
-          'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80'
-    },
-    {
-      'name': 'IPhone 11',
-      'rating': 4,
-      'image':
-          'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80'
-    },
-    {
-      'name': 'IPhone 11',
-      'rating': 4,
-      'image':
-          'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80'
-    },
-    {
-      'name': 'IPhone 12',
-      'rating': 5,
-      'image':
-          'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80'
-    },
-    {
-      'name': 'IPhone 12',
-      'rating': 5,
-      'image':
-          'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80'
-    },
-    {
-      'name': 'IPhone 12',
-      'rating': 5,
-      'image':
-          'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80'
-    },
-    {
-      'name': 'IPhone 12',
-      'rating': 5,
-      'image':
-          'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80'
-    },
-    {
-      'name': 'IPhone 12',
-      'rating': 5,
-      'image':
-          'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80'
-    },
-    {
-      'name': 'IPhone 12',
-      'rating': 5,
-      'image':
-          'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80'
-    },
-  ];
-
-  final _nameController = TextEditingController();
-  final _uom = TextEditingController();
-  final _sPrice = TextEditingController();
-  final _bPrice = TextEditingController();
+  InventoryService inventoryService = InventoryService();
+  List<InventoryModel> inventorys = List.empty();
 
   @override
   void initState() {
-    // products = [];
+    // TODO: implement initState
     super.initState();
-  }
 
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _uom.dispose();
-    _sPrice.dispose();
-    _bPrice.dispose();
-    super.dispose();
+    inventoryService.getAllInventory().then((result) {
+      setState(() {
+        inventorys = List.from(result);
+        print(result);
+      });
+    }).catchError((err) {
+      print(err);
+    });
   }
 
   @override
@@ -139,10 +46,6 @@ class _PharmacistInventory extends State<PharmacistInventory> {
                     child: DataTable(
                       showCheckboxColumn: true,
                       columns: [
-                        DataColumn(
-                          label: Text("ID"),
-                          numeric: false,
-                        ),
                         DataColumn(
                           label: Text("Supplier name"),
                           numeric: false,
@@ -171,72 +74,46 @@ class _PharmacistInventory extends State<PharmacistInventory> {
                           label: Text("Required permission"),
                           numeric: false,
                         ),
-                        // DataColumn(
-                        //   label: Text("Selling Price"),
-                        //   numeric: true,
-                        //   tooltip: "This is the product's Selling Price",
-                        // ),
-                        // DataColumn(
-                        //     label: Text("Profit"),
-                        //     numeric: true,
-                        //     tooltip: "This is the Profit margin"),
                       ],
-                      rows: products
+                      rows: inventorys
                           .map(
-                            (product) => DataRow(
+                            (inventory) => DataRow(
                               cells: [
                                 DataCell(
                                   Text(
-                                    product["rating"].toString(),
+                                    inventory.imagePath!,
                                   ),
                                 ),
                                 DataCell(
                                   Text(
-                                    product["rating"].toString(),
+                                    inventory.name!,
                                   ),
                                 ),
                                 DataCell(
                                   Text(
-                                    product["name"],
+                                    inventory.quantity!.toString(),
                                   ),
                                 ),
                                 DataCell(
                                   Text(
-                                    product["rating"].toString(),
+                                    inventory.expireDate!,
                                   ),
                                 ),
                                 DataCell(
                                   Text(
-                                    product["rating"].toString(),
+                                    inventory.price!.toString(),
                                   ),
                                 ),
                                 DataCell(
                                   Text(
-                                    product["name"],
+                                    inventory.supplierId!,
                                   ),
                                 ),
                                 DataCell(
                                   Text(
-                                    product["name"],
+                                    inventory.supplierName!,
                                   ),
                                 ),
-                                DataCell(
-                                  Text(
-                                    product["name"],
-                                  ),
-                                ),
-                                // DataCell(
-                                //   Text(
-                                //     product.sellingPrice.toString(),
-                                //   ),
-                                // ),
-                                // DataCell(
-                                //   Text(
-                                //     (product.sellingPrice -
-                                //             product.buyingPrice)
-                                //         .toString(),
-                                //   ),
-                                // ),
                               ],
                             ),
                           )

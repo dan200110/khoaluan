@@ -12,7 +12,10 @@ class _PharmacistOrder extends State<PharmacistOrder> {
   List<DoctorOrderModel> doctor_orders = List.empty();
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
     doctorOrderService.getAllDoctorOrder().then((result) {
       setState(() {
         doctor_orders = List.from(result);
@@ -20,6 +23,10 @@ class _PharmacistOrder extends State<PharmacistOrder> {
     }).catchError((err) {
       print(err);
     });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("All drug order"),

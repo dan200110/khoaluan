@@ -11,6 +11,22 @@ class DoctorOrderService {
     if (response.statusCode == 200) {
       Map jsonResponse = jsonDecode(response.body);
       List<dynamic> parsedListJson = jsonResponse["doctorOders"];
+      print(parsedListJson);
+      List<DoctorOrderModel> result = List<DoctorOrderModel>.from(parsedListJson
+          .map<DoctorOrderModel>((dynamic i) => DoctorOrderModel.fromJson(i)));
+      return result;
+    } else {
+      throw Exception(response.body);
+    }
+  }
+
+  Future<List<DoctorOrderModel>> getAllUnverifiedDoctorOrderByDoctorId() async {
+    final response = await http
+        .get(Uri.parse('$BASE_URL/api/getAllUnverifiedDoctorOrderByDoctorId'));
+    if (response.statusCode == 200) {
+      Map jsonResponse = jsonDecode(response.body);
+      List<dynamic> parsedListJson = jsonResponse["doctorOders"];
+      print(parsedListJson);
       List<DoctorOrderModel> result = List<DoctorOrderModel>.from(parsedListJson
           .map<DoctorOrderModel>((dynamic i) => DoctorOrderModel.fromJson(i)));
       return result;
